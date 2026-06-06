@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Capture intervallee - entrainement</title>
+    <title>Capture intervallee</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23126e82'/%3E%3Ccircle cx='32' cy='32' r='12' fill='white'/%3E%3C/svg%3E" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -11,7 +12,7 @@
       <header class="topbar">
         <div>
           <h1>Capture intervallee</h1>
-          <p class="lead">Enregistre des captures ou de courts clips locaux pendant une session d'entrainement.</p>
+          <p class="lead">Enregistre des captures ou de courts clips locaux pendant une session.</p>
         </div>
         <div class="status-pill" id="secureStatus">Verification navigateur...</div>
       </header>
@@ -146,25 +147,14 @@
           <div class="panel-heading">
             <div>
               <h2 id="notes-title">Brouillon</h2>
-              <p>Notes de comprehension, strategie et points a reviser.</p>
+              <p>Contexte, points cles, preuves et actions a garder.</p>
             </div>
             <div class="compact-actions">
               <button class="secondary" id="insertTemplateBtn" type="button">Plan</button>
               <button class="secondary" id="exportNotesBtn" type="button">Exporter</button>
             </div>
           </div>
-          <textarea id="notes" spellcheck="true" placeholder="Q1 - Mecanisme compris : ...&#10;Piege : ...&#10;A revoir : ..."></textarea>
-        </section>
-
-        <section class="panel questions-panel" aria-labelledby="questions-title">
-          <div class="panel-heading">
-            <div>
-              <h2 id="questions-title">20 questions d'entrainement</h2>
-              <p>Formats inspires de tests d'aptitude classiques, avec chiffres et details originaux.</p>
-            </div>
-            <button class="secondary" id="copyQuestionsBtn" type="button">Copier dans le brouillon</button>
-          </div>
-          <div id="questionsList" class="questions-list"></div>
+          <textarea id="notes" spellcheck="true" placeholder="Objectif : ...&#10;Contexte : ...&#10;Points cles : ...&#10;Actions : ..."></textarea>
         </section>
 
         <section class="panel log-panel" aria-labelledby="log-title">

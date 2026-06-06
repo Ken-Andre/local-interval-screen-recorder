@@ -13,7 +13,6 @@ recording trail without filling the disk with one huge video file.
 - Lets Chrome write directly to a local folder when the user grants permission.
 - Applies retention limits by file count and total session size.
 - Keeps a local note draft for review points and strategy.
-- Includes 20 training questions for aptitude-style practice sessions.
 
 Everything runs in the browser. The app does not upload recordings, call an API,
 or send telemetry.

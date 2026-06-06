@@ -103,7 +103,6 @@ h2 {
 
 .capture-panel,
 .notes-panel,
-.questions-panel,
 .log-panel,
 .side-panel {
   padding: 18px;
@@ -111,7 +110,6 @@ h2 {
 
 .capture-panel,
 .notes-panel,
-.questions-panel,
 .log-panel {
   grid-column: 1;
 }
@@ -437,77 +435,6 @@ textarea {
   line-height: 1.5;
 }
 
-.questions-list {
-  display: grid;
-  gap: 10px;
-}
-
-.question-item {
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: #fbfcfd;
-  overflow: hidden;
-}
-
-.question-button {
-  width: 100%;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 10px;
-  min-height: 48px;
-  padding: 11px 12px;
-  background: transparent;
-  color: var(--text);
-  text-align: left;
-}
-
-.question-number {
-  width: 34px;
-  height: 28px;
-  display: inline-grid;
-  place-items: center;
-  border-radius: 6px;
-  background: #e8f3f6;
-  color: var(--accent-dark);
-  font-size: 12px;
-  font-weight: 800;
-}
-
-.question-title {
-  display: block;
-  font-size: 14px;
-  font-weight: 760;
-  line-height: 1.3;
-  overflow-wrap: anywhere;
-}
-
-.question-kind {
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 720;
-}
-
-.question-body {
-  display: none;
-  padding: 0 12px 13px 56px;
-  color: #344154;
-  font-size: 14px;
-  line-height: 1.52;
-}
-
-.question-item.is-open .question-body {
-  display: block;
-}
-
-.question-body strong {
-  color: var(--text);
-}
-
-.question-body p + p {
-  margin-top: 8px;
-}
-
 .table-wrap {
   overflow: auto;
 }
@@ -561,7 +488,6 @@ td {
 
   .capture-panel,
   .notes-panel,
-  .questions-panel,
   .log-panel,
   .side-panel {
     grid-column: 1;
@@ -591,7 +517,6 @@ td {
 
   .capture-panel,
   .notes-panel,
-  .questions-panel,
   .log-panel,
   .side-panel {
     padding: 16px;
@@ -620,18 +545,6 @@ td {
   .destination-row .secondary,
   .action-row > button {
     width: 100%;
-  }
-
-  .question-button {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-
-  .question-kind {
-    grid-column: 2;
-  }
-
-  .question-body {
-    padding-left: 12px;
   }
 
   .preview-shell {

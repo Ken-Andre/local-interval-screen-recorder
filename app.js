@@ -32,8 +32,6 @@ const els = {
   notes: $("#notes"),
   insertTemplateBtn: $("#insertTemplateBtn"),
   exportNotesBtn: $("#exportNotesBtn"),
-  copyQuestionsBtn: $("#copyQuestionsBtn"),
-  questionsList: $("#questionsList"),
   retentionSummary: $("#retentionSummary"),
   clearLogBtn: $("#clearLogBtn"),
   captureRows: $("#captureRows"),
@@ -45,155 +43,6 @@ const DB_NAME = "interval-recorder-db";
 const DB_VERSION = 1;
 const HANDLE_KEY = "capture-directory";
 
-const questions = [
-  {
-    kind: "Calcul de variation",
-    title: "Un encours passe de 48 M EUR a 54 M EUR, puis recule de 7 %. Quelle est la valeur finale et la variation nette ?",
-    prompt:
-      "Donne la valeur finale en M EUR et le pourcentage de variation par rapport au niveau initial.",
-    answer:
-      "54 x 0,93 = 50,22 M EUR. Variation nette : (50,22 - 48) / 48 = 4,625 %, donc environ +4,6 %.",
-    method:
-      "Enchaine les multiplicateurs, puis compare seulement a la valeur de depart.",
-  },
-  {
-    kind: "Ratio",
-    title: "Une equipe traite 315 dossiers en 5 jours avec 7 analystes. Combien de dossiers par analyste et par jour ?",
-    prompt: "Suppose une repartition uniforme de la charge.",
-    answer: "315 / (5 x 7) = 9 dossiers par analyste et par jour.",
-    method: "Ramene toujours la production a une unite simple avant d'extrapoler.",
-  },
-  {
-    kind: "Pourcentage inverse",
-    title: "Apres une baisse de 12 %, un indicateur vaut 154. Quelle etait sa valeur avant la baisse ?",
-    prompt: "Arrondis a une decimale.",
-    answer: "154 / 0,88 = 175,0.",
-    method: "Une baisse de 12 % laisse 88 % de la valeur initiale. Il faut donc diviser par 0,88.",
-  },
-  {
-    kind: "Priorisation",
-    title: "Trois demandes arrivent : client premium bloque, reporting interne avance de 2 h, demande commerciale non urgente. Que fais-tu d'abord ?",
-    prompt: "Classe les actions dans l'ordre et explique la logique.",
-    answer:
-      "Traiter ou escalader le blocage client premium, prevenir le responsable du reporting avec une estimation, puis planifier la demande commerciale.",
-    method:
-      "Priorise impact client, risque financier ou reputationnel, delai ferme, puis confort interne.",
-  },
-  {
-    kind: "Suite logique",
-    title: "Quelle est la suite : 3, 7, 15, 31, 63, ?",
-    prompt: "Choisis le nombre suivant.",
-    answer: "127. Chaque terme vaut le precedent x 2 + 1.",
-    method: "Teste differences et multiplicateurs. Ici les differences doublent : 4, 8, 16, 32.",
-  },
-  {
-    kind: "Lecture de tableau",
-    title: "Agence A : 120 ventes dont 18 annulations. Agence B : 95 ventes dont 10 annulations. Quel taux d'annulation est le plus faible ?",
-    prompt: "Compare les deux taux.",
-    answer: "A : 18 / 120 = 15 %. B : 10 / 95 = 10,5 %. B est plus faible.",
-    method: "Compare des taux, pas les volumes bruts.",
-  },
-  {
-    kind: "Temps",
-    title: "Un appel commence a 09:42 et dure 1 h 47. Une pause de 12 minutes suit. A quelle heure reprend la session ?",
-    prompt: "Donne l'heure exacte.",
-    answer: "09:42 + 1:47 = 11:29. Plus 12 min = 11:41.",
-    method: "Additionne en deux etapes pour eviter les erreurs de retenue.",
-  },
-  {
-    kind: "Marge",
-    title: "Un produit rapporte 18,40 EUR de revenu pour 13,80 EUR de cout. Quelle est la marge sur revenu ?",
-    prompt: "Arrondis au dixieme de pourcent.",
-    answer: "(18,40 - 13,80) / 18,40 = 25,0 %.",
-    method: "La marge sur revenu se divise par le revenu, pas par le cout.",
-  },
-  {
-    kind: "Change",
-    title: "Un montant de 12 500 USD est converti a 1 EUR = 1,08 USD. Combien d'euros obtient-on avant frais ?",
-    prompt: "Arrondis a l'euro le plus proche.",
-    answer: "12 500 / 1,08 = 11 574 EUR environ.",
-    method: "Si le taux dit combien de dollars vaut 1 euro, on divise les dollars par ce taux.",
-  },
-  {
-    kind: "Attention",
-    title: "Parmi ces codes, lequel ne respecte pas le format AA-999-Z ? AB-482-K, QP-091-T, MN-77A-X, LT-305-B",
-    prompt: "Repere l'anomalie de structure.",
-    answer: "MN-77A-X. Le bloc central doit contenir trois chiffres, pas deux chiffres et une lettre.",
-    method: "Controle d'abord la structure, puis le contenu.",
-  },
-  {
-    kind: "Proportion",
-    title: "Dans un portefeuille de 2 400 clients, 35 % utilisent l'app mobile. Parmi eux, 60 % activent les alertes. Combien ont active les alertes ?",
-    prompt: "Calcule le nombre de clients.",
-    answer: "2 400 x 0,35 x 0,60 = 504 clients.",
-    method: "Multiplie les proportions successives quand les groupes sont imbriques.",
-  },
-  {
-    kind: "Verbal",
-    title: "Affirmation : tous les dossiers urgents sont relus. Certains dossiers relus sont archives. Peut-on conclure que certains dossiers urgents sont archives ?",
-    prompt: "Reponds oui, non, ou impossible a determiner.",
-    answer: "Impossible a determiner. Les dossiers relus et archives ne sont pas forcement les dossiers urgents.",
-    method: "Ne franchis pas une conclusion qui n'est pas imposee par les premisses.",
-  },
-  {
-    kind: "Productivite",
-    title: "Un processus manuel prend 14 min par dossier. Une automatisation reduit ce temps de 35 %. Temps gagne sur 80 dossiers ?",
-    prompt: "Donne le gain total en heures et minutes.",
-    answer: "Gain par dossier : 14 x 0,35 = 4,9 min. Total : 392 min = 6 h 32.",
-    method: "Calcule le gain unitaire, puis multiplie par le volume.",
-  },
-  {
-    kind: "Seuil",
-    title: "Il faut atteindre 92 % de conformite sur 250 controles. Combien de controles conformes au minimum ?",
-    prompt: "Donne un nombre entier.",
-    answer: "250 x 0,92 = 230. Il faut au moins 230 controles conformes.",
-    method: "Quand le resultat n'est pas entier, on arrondit au-dessus pour un minimum.",
-  },
-  {
-    kind: "Decision",
-    title: "Tu detectes une incoherence mineure dans un fichier a envoyer dans 20 minutes. Le correctif prend 5 minutes, la validation 10. Que fais-tu ?",
-    prompt: "Decris une reponse professionnelle.",
-    answer:
-      "Corriger, demander ou effectuer la validation rapide, puis envoyer. Si la validation risque de depasser le delai, prevenir avant l'echeance.",
-    method: "Pondere qualite, delai, transparence et controle du risque.",
-  },
-  {
-    kind: "Interets simples",
-    title: "Un placement de 18 000 EUR rapporte 3,2 % annuel simple pendant 9 mois. Quel interet brut ?",
-    prompt: "Ignore les frais et impots.",
-    answer: "18 000 x 0,032 x 9 / 12 = 432 EUR.",
-    method: "Proratise le taux annuel sur la duree effective.",
-  },
-  {
-    kind: "Comparaison",
-    title: "Offre A : frais fixes 12 EUR + 0,18 % du montant. Offre B : 0,30 % sans fixe. A partir de quel montant A devient moins chere ?",
-    prompt: "Trouve le seuil.",
-    answer:
-      "12 + 0,0018M < 0,0030M, donc 12 < 0,0012M, donc M > 10 000 EUR.",
-    method: "Pose une inegalite et isole le montant.",
-  },
-  {
-    kind: "Suite alphabetique",
-    title: "Quelle lettre complete la suite : C, F, J, O, U, ?",
-    prompt: "Raisonne sur les positions alphabetiques.",
-    answer: "B si l'on reboucle apres Z. Les ecarts sont +3, +4, +5, +6, puis +7 : U + 7 = B.",
-    method: "Convertis en positions et regarde les ecarts.",
-  },
-  {
-    kind: "Exactitude",
-    title: "Un document indique IBAN FR76 3000 4000 5000 0000 1234 567. La copie indique FR76 3000 4000 5000 0000 1243 567. Quelle difference ?",
-    prompt: "Identifie l'erreur.",
-    answer: "Le bloc 1234 est devenu 1243 : inversion des chiffres 3 et 4.",
-    method: "Compare par blocs fixes plutot que caractere par caractere sans structure.",
-  },
-  {
-    kind: "Estimation",
-    title: "Une file contient 38 demandes. Le traitement moyen observe est 6 min 30 par demande. Estime la duree totale.",
-    prompt: "Donne une approximation en heures.",
-    answer: "38 x 6,5 = 247 min, soit 4 h 07 environ.",
-    method: "Convertis les secondes en decimal de minute pour calculer vite.",
-  },
-];
 
 const state = {
   mode: "snapshot",
@@ -869,13 +718,18 @@ function clearLog() {
 function insertTemplate() {
   const template = [
     "",
-    "Revision session",
-    "Strategie generale :",
-    "- Lire l'unite avant de calculer.",
-    "- Identifier si la question demande une valeur finale, un taux ou un ecart.",
-    "- Noter les pieges : pourcentage inverse, base de marge, arrondi, conclusion non prouvee.",
+    "Session",
+    "Objectif :",
+    "Contexte :",
+    "Points cles :",
+    "- ",
+    "Preuves / moments a retrouver :",
+    "- ",
+    "Decisions / actions :",
+    "- ",
+    "A revoir :",
+    "- ",
     "",
-    ...questions.map((_, index) => `Q${index + 1} - Mecanisme compris :\nPiege :\nA revoir :`),
   ].join("\n");
   els.notes.value = `${els.notes.value.trim()}\n${template}`.trim();
   localStorage.setItem(NOTES_KEY, els.notes.value);
@@ -900,47 +754,6 @@ async function exportNotes() {
   }
 }
 
-function renderQuestions() {
-  els.questionsList.innerHTML = questions
-    .map(
-      (q, index) => `<article class="question-item">
-        <button class="question-button" type="button" aria-expanded="false">
-          <span class="question-number">Q${index + 1}</span>
-          <span>
-            <span class="question-title">${q.title}</span>
-          </span>
-          <span class="question-kind">${q.kind}</span>
-        </button>
-        <div class="question-body">
-          <p><strong>Consigne :</strong> ${q.prompt}</p>
-          <p><strong>Reponse :</strong> ${q.answer}</p>
-          <p><strong>Point cle :</strong> ${q.method}</p>
-        </div>
-      </article>`,
-    )
-    .join("");
-
-  $$(".question-button").forEach((button) => {
-    button.addEventListener("click", () => {
-      const item = button.closest(".question-item");
-      const open = item.classList.toggle("is-open");
-      button.setAttribute("aria-expanded", String(open));
-    });
-  });
-}
-
-function copyQuestionsToNotes() {
-  const text = questions
-    .map(
-      (q, index) =>
-        `Q${index + 1} - ${q.kind}\nQuestion : ${q.title}\nConsigne : ${q.prompt}\nPoint cle : ${q.method}\n`,
-    )
-    .join("\n");
-  els.notes.value = `${els.notes.value.trim()}\n\n${text}`.trim();
-  localStorage.setItem(NOTES_KEY, els.notes.value);
-  els.notes.focus();
-}
-
 function bindEvents() {
   els.modeSnapshot.addEventListener("click", () => setMode("snapshot"));
   els.modeClip.addEventListener("click", () => setMode("clip"));
@@ -963,7 +776,6 @@ function bindEvents() {
   });
   els.insertTemplateBtn.addEventListener("click", insertTemplate);
   els.exportNotesBtn.addEventListener("click", exportNotes);
-  els.copyQuestionsBtn.addEventListener("click", copyQuestionsToNotes);
 
   window.addEventListener("beforeunload", () => {
     if (state.stream) state.stream.getTracks().forEach((track) => track.stop());
@@ -976,7 +788,6 @@ async function init() {
   els.qualityOut.value = els.quality.value;
   checkRuntime();
   renderRows();
-  renderQuestions();
   bindEvents();
   updateButtons();
   updatePreview();
