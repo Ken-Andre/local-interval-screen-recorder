@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Capture intervallee - entrainement</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <h1>Capture intervallee</h1>
+          <p class="lead">Enregistre des captures ou de courts clips locaux pendant une session d'entrainement.</p>
+        </div>
+        <div class="status-pill" id="secureStatus">Verification navigateur...</div>
+      </header>
+
+      <main class="layout">
+        <section class="panel capture-panel" aria-labelledby="capture-title">
+          <div class="panel-heading">
+            <div>
+              <h2 id="capture-title">Enregistrement</h2>
+              <p>Choisis un mode, une cadence et une limite de retention.</p>
+            </div>
+            <div class="segmented" role="tablist" aria-label="Mode de capture">
+              <button class="segment is-active" id="modeSnapshot" type="button" data-mode="snapshot">
+                Images
+              </button>
+              <button class="segment" id="modeClip" type="button" data-mode="clip">
+                Segments video
+              </button>
+            </div>
+          </div>
+
+          <div class="control-grid">
+            <label class="field">
+              <span>Intervalle / attente</span>
+              <input id="intervalSec" type="number" min="1" max="3600" step="1" value="60" />
+              <small>secondes; ignore si segments continus</small>
+            </label>
+
+            <label class="field clip-only">
+              <span>Duree d'un segment</span>
+              <input id="clipSec" type="number" min="2" max="300" step="1" value="8" />
+              <small>secondes</small>
+            </label>
+
+            <label class="check-field clip-only">
+              <input id="continuousClips" type="checkbox" checked />
+              <span>Enchainer les segments sans trou</span>
+            </label>
+
+            <label class="field snapshot-only">
+              <span>Largeur max image</span>
+              <input id="maxWidth" type="number" min="640" max="3840" step="160" value="1600" />
+              <small>px, preserve le ratio</small>
+            </label>
+
+            <label class="field snapshot-only">
+              <span>Qualite image</span>
+              <input id="quality" type="range" min="45" max="95" step="5" value="78" />
+              <small><output id="qualityOut">78</output>% JPEG</small>
+            </label>
+
+            <label class="field clip-only">
+              <span>Debit video</span>
+              <input id="bitrate" type="number" min="0.4" max="8" step="0.2" value="1.2" />
+              <small>Mbit/s</small>
+            </label>
+
+            <label class="field">
+              <span>Nombre max de fichiers</span>
+              <input id="maxFiles" type="number" min="1" max="10000" step="1" value="40" />
+              <small>les plus anciens sont supprimes</small>
+            </label>
+
+            <label class="field">
+              <span>Taille totale max</span>
+              <input id="maxMb" type="number" min="10" max="20000" step="10" value="750" />
+              <small>Mo pendant cette session</small>
+            </label>
+
+            <label class="check-field">
+              <input id="captureImmediately" type="checkbox" checked />
+              <span>Capturer des le demarrage</span>
+            </label>
+          </div>
+
+          <div class="destination-row">
+            <button class="secondary" id="chooseFolderBtn" type="button">
+              Choisir un dossier
+            </button>
+            <div>
+              <strong id="destinationLabel">Destination : telechargements manuels</strong>
+              <p id="destinationHelp">Chrome peut ecrire directement dans un dossier choisi. Sinon, les fichiers restent disponibles via boutons de telechargement.</p>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button class="primary" id="startBtn" type="button">
+              Demarrer
+            </button>
+            <button class="secondary" id="captureNowBtn" type="button" disabled>
+              Capturer maintenant
+            </button>
+            <button class="secondary" id="pauseBtn" type="button" disabled>
+              Pause
+            </button>
+            <button class="danger" id="stopBtn" type="button" disabled>
+              Stop
+            </button>
+          </div>
+
+          <div class="progress-wrap" aria-live="polite">
+            <div class="progress-copy">
+              <span id="runStatus">Pret.</span>
+              <span id="nextStatus">Aucune capture planifiee.</span>
+            </div>
+            <div class="progress-track">
+              <div id="progressBar" class="progress-bar"></div>
+            </div>
+          </div>
+
+          <div class="preview-shell">
+            <video id="preview" autoplay muted playsinline></video>
+            <div class="preview-empty" id="previewEmpty">
+              <strong>Apercu local</strong>
+              <span>L'apercu apparait apres selection de l'ecran ou de la fenetre a capturer.</span>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel side-panel" aria-labelledby="safety-title">
+          <h2 id="safety-title">Garde-fous</h2>
+          <ul class="safety-list">
+            <li>Ne capture pas un gestionnaire de mots de passe, une page bancaire ou une piece d'identite.</li>
+            <li>Les fichiers restent sur cette machine. L'app n'envoie rien sur Internet.</li>
+            <li>Pour eviter l'effet miroir, partage plutot une fenetre precise qu'un ecran entier.</li>
+            <li>Les anciens fichiers ne sont supprimes automatiquement que si un dossier Chrome a ete choisi.</li>
+          </ul>
+          <button class="secondary full-width" id="hidePreviewBtn" type="button">Masquer l'apercu</button>
+        </aside>
+
+        <section class="panel notes-panel" aria-labelledby="notes-title">
+          <div class="panel-heading">
+            <div>
+              <h2 id="notes-title">Brouillon</h2>
+              <p>Notes de comprehension, strategie et points a reviser.</p>
+            </div>
+            <div class="compact-actions">
+              <button class="secondary" id="insertTemplateBtn" type="button">Plan</button>
+              <button class="secondary" id="exportNotesBtn" type="button">Exporter</button>
+            </div>
+          </div>
+          <textarea id="notes" spellcheck="true" placeholder="Q1 - Mecanisme compris : ...&#10;Piege : ...&#10;A revoir : ..."></textarea>
+        </section>
+
+        <section class="panel questions-panel" aria-labelledby="questions-title">
+          <div class="panel-heading">
+            <div>
+              <h2 id="questions-title">20 questions d'entrainement</h2>
+              <p>Formats inspires de tests d'aptitude classiques, avec chiffres et details originaux.</p>
+            </div>
+            <button class="secondary" id="copyQuestionsBtn" type="button">Copier dans le brouillon</button>
+          </div>
+          <div id="questionsList" class="questions-list"></div>
+        </section>
+
+        <section class="panel log-panel" aria-labelledby="log-title">
+          <div class="panel-heading">
+            <div>
+              <h2 id="log-title">Fichiers generes</h2>
+              <p id="retentionSummary">0 fichier, 0 Mo.</p>
+            </div>
+            <button class="secondary" id="clearLogBtn" type="button">Nettoyer la liste</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Heure</th>
+                  <th>Type</th>
+                  <th>Taille</th>
+                  <th>Nom</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="captureRows">
+                <tr class="empty-row">
+                  <td colspan="5">Aucun fichier pour l'instant.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

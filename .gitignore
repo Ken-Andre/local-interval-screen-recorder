@@ -1,0 +1,16 @@
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+*.webm
+*.jpg
+*.jpeg
+*.png
+notes_session_*.txt
+capture_*.jpg
+clip_*.webm
+segment_*.webm

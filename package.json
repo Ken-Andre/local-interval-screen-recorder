@@ -1,0 +1,11 @@
+{
+  "name": "local-interval-screen-recorder",
+  "version": "1.0.0",
+  "description": "Static browser app for local interval screenshots and segmented screen recording.",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "serve": "python -m http.server 8123 --bind 127.0.0.1",
+    "test:syntax": "node --check app.js"
+  }
+}
