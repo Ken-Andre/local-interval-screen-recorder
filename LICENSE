@@ -1,21 +1,92 @@
-MIT License
+AI-Era Responsible Use Source License 1.0
 
 Copyright (c) 2026 Ken-Andre
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This license is a custom source-available license. It is not the MIT License
+and it is not an OSI-approved open source license.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. Definitions
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+"Licensed Materials" means this repository, source code, documentation, user
+interface text, assets, and any distributed copies.
+
+"Application Use" means using the working browser application through a hosted
+page or a local copy for recording, note-taking, testing, demonstration,
+personal use, professional use, or internal workflow use.
+
+"AI/ML Use" means using the Licensed Materials, or any portion of them, as
+training data, fine-tuning data, evaluation data, benchmark data, retrieval
+corpus, embeddings input, synthetic-data seed, model-output comparison target,
+or any other input to develop, train, tune, evaluate, improve, or operate a
+machine learning or artificial intelligence system.
+
+"Automated Extraction" means scraping, crawling, bulk downloading, mirroring,
+mining, parsing, copying, or otherwise extracting the Licensed Materials using
+automated or semi-automated means.
+
+2. Permission for application users
+
+You may use the application as a user. This includes:
+
+- accessing the public hosted version;
+- running an unmodified local copy;
+- using the application output for your own lawful purposes;
+- sharing a link to the original project or hosted application.
+
+3. Permission for developers
+
+You may inspect, fork, modify, and improve the source code if all of the
+following conditions are met:
+
+- you keep this license and the NOTICE.md attribution file with the project;
+- you preserve clear credit to "Ken-Andre" as the original creator;
+- you clearly identify material changes when you publish a modified version;
+- you do not imply endorsement by the original creator unless permission was
+  granted in writing;
+- any public redistribution or deployment of a modified version includes a
+  visible attribution or a clearly linked attribution page.
+
+4. Restrictions
+
+Without prior written permission from the copyright holder, you may not:
+
+- use the Licensed Materials for AI/ML Use;
+- perform Automated Extraction of the Licensed Materials for dataset creation,
+  model training, model evaluation, model comparison, code-generation systems,
+  retrieval-augmented generation corpora, embedding databases, or similar
+  automated knowledge extraction;
+- remove, hide, or misrepresent the required credits or attribution;
+- sell, sublicense, or repackage the Licensed Materials as a standalone product
+  without preserving attribution and this license;
+- use the Licensed Materials in a way that violates applicable law or the terms
+  of a third-party service.
+
+5. Allowed indexing and normal browsing
+
+This license does not prohibit normal human browsing, normal browser caching,
+manual review, or ordinary public search-engine indexing of the hosted app when
+that indexing is not used for AI/ML Use or dataset creation.
+
+6. Contributions
+
+By submitting a pull request, patch, or other contribution, you agree that your
+contribution may be incorporated into the project under this license, unless a
+separate written agreement says otherwise.
+
+7. Termination
+
+If you violate this license, your rights under it terminate automatically. The
+copyright holder may reinstate rights in writing.
+
+8. No warranty
+
+THE LICENSED MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, SECURITY, OR AVAILABILITY.
+THE COPYRIGHT HOLDER IS NOT LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY
+ARISING FROM USE OF THE LICENSED MATERIALS.
+
+9. Permission requests
+
+For permission to use the Licensed Materials outside these terms, including
+AI/ML Use or commercial relicensing, contact the repository owner.

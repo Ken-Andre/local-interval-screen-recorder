@@ -17,6 +17,17 @@ recording trail without filling the disk with one huge video file.
 Everything runs in the browser. The app does not upload recordings, call an API,
 or send telemetry.
 
+## License and AI-era usage
+
+This project uses a custom source-available license, not the MIT License.
+
+You may use the working application and developers may fork or improve it with
+credit. Automated scraping, dataset creation, model training, model evaluation,
+or other AI/ML use of the source, documentation, UI text, or assets is not
+authorized without prior written permission.
+
+See [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).
+
 ## Live demo
 
 This project can run on GitHub Pages because it is a static app:

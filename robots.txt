@@ -1,0 +1,10 @@
+# Automated extraction, AI training, dataset creation, and model evaluation are
+# not authorized without prior written permission. See LICENSE.
+
+User-agent: *
+Disallow: /app.js
+Disallow: /styles.css
+Disallow: /package.json
+Disallow: /LICENSE
+Disallow: /NOTICE.md
+Allow: /

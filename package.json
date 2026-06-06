@@ -2,7 +2,7 @@
   "name": "local-interval-screen-recorder",
   "version": "1.0.0",
   "description": "Static browser app for local interval screenshots and segmented screen recording.",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "private": false,
   "scripts": {
     "serve": "python -m http.server 8123 --bind 127.0.0.1",

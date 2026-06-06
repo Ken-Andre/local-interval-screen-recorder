@@ -121,6 +121,14 @@ h2 {
   top: 16px;
 }
 
+.app-footer {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: center;
+}
+
 .panel-heading {
   display: flex;
   align-items: flex-start;
